@@ -7,11 +7,11 @@ import {
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { insertAccountSchema } from "@/db/schema";
-import { useCreateAccount } from "@/features/accounts/api/use-create-account";
 import { useGetAccount } from "@/features/accounts/api/use-get-account";
 import AccountForm from "@/features/accounts/components/account-form";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
 import { z } from "zod";
+import { useEditAccount } from "../api/use-edit-account";
 
 const formSchema = insertAccountSchema.pick({ name: true });
 type FormValues = z.input<typeof formSchema>;
@@ -20,9 +20,11 @@ export default function EditAccountSheet() {
   const { isOpen, onClose, id } = useOpenAccount();
   const accountQuery = useGetAccount(id);
 
-  const mutation = useCreateAccount();
+  const mutation = useEditAccount(id);
 
   const isLoading = accountQuery.isLoading;
+
+  const isPending = mutation.isPending;
 
   const onSubmit = (values: FormValues) => {
     mutation.mutate(values, {
@@ -56,7 +58,7 @@ export default function EditAccountSheet() {
           <AccountForm
             id={id}
             onSubmit={onSubmit}
-            disabled={mutation.isPending}
+            disabled={isPending}
             defaultValues={defaultValues}
           />
         )}
