@@ -6,30 +6,30 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import { insertAccountSchema } from "@/db/schema";
-import { useGetAccount } from "@/features/accounts/api/use-get-account";
-import AccountForm from "@/features/accounts/components/account-form";
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
+import { insertCategorySchema } from "@/db/schema";
+import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
+import { useEditCategory } from "@/features/categories/api/use-edit-category";
+import { useGetCategory } from "@/features/categories/api/use-get-category";
+import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
 import { useConfirm } from "@/hooks/use-confirm";
 import { z } from "zod";
-import { useDeleteAccount } from "../api/use-delete.account";
-import { useEditAccount } from "../api/use-edit-account";
+import CategoryForm from "./category-form";
 
-const formSchema = insertAccountSchema.pick({ name: true });
+const formSchema = insertCategorySchema.pick({ name: true });
 type FormValues = z.input<typeof formSchema>;
 
-export default function EditAccountSheet() {
-  const { isOpen, onClose, id } = useOpenAccount();
-  const accountQuery = useGetAccount(id);
+export default function EditCategorySheet() {
+  const { isOpen, onClose, id } = useOpenCategory();
+  const categoryQuery = useGetCategory(id);
   const [ConfrimDialog, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete this account"
+    "You are about to delete this category"
   );
 
-  const mutation = useEditAccount(id);
-  const deleteMutation = useDeleteAccount(id);
+  const mutation = useEditCategory(id);
+  const deleteMutation = useDeleteCategory(id);
 
-  const isLoading = accountQuery.isLoading;
+  const isLoading = categoryQuery.isLoading;
 
   const isPending = mutation.isPending || deleteMutation.isPending;
 
@@ -41,9 +41,9 @@ export default function EditAccountSheet() {
     });
   };
 
-  const defaultValues = accountQuery.data
+  const defaultValues = categoryQuery.data
     ? {
-        name: accountQuery.data.name,
+        name: categoryQuery.data.name,
       }
     : {
         name: "",
@@ -65,8 +65,8 @@ export default function EditAccountSheet() {
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent className="">
           <SheetHeader>
-            <SheetTitle>Edit Account</SheetTitle>
-            <SheetDescription>Edit an existing account.</SheetDescription>
+            <SheetTitle>Edit Category</SheetTitle>
+            <SheetDescription>Edit an existing category.</SheetDescription>
           </SheetHeader>
           {isLoading ? (
             <div className="space-y-4">
@@ -75,7 +75,7 @@ export default function EditAccountSheet() {
               <Skeleton className="w-full h-12" />
             </div>
           ) : (
-            <AccountForm
+            <CategoryForm
               id={id}
               onSubmit={onSubmit}
               disabled={isPending}
