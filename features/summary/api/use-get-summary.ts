@@ -8,7 +8,6 @@ export const useGetSummary = () => {
   const to = params.get("to") || "";
   const accountId = params.get("accountId") || "";
   const query = useQuery({
-    // TODO: Caheck if param are needed
     queryKey: ["summary", { from, to, accountId }],
     queryFn: async () => {
       const response = await client.api.summary.$get({
