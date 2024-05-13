@@ -9,6 +9,13 @@ export function convertAmountToMilliUnit(amount: number) {
   return Math.round(amount * 1000);
 }
 
-export function convertMilliUnitToAmoun(unit: number) {
+export function convertMilliUnitToAmount(unit: number) {
   return unit / 1000;
+}
+
+export function formatCurrency(value: number) {
+  return value.toLocaleString("en-NG", {
+    style: "currency",
+    currency: "NGN",
+  });
 }

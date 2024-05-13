@@ -9,19 +9,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete.account";
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
+import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction";
+import { useOpenTrasaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useConfirm } from "@/hooks/use-confirm";
 
 type Props = {
   id: string;
 };
 export default function Actions({ id }: Props) {
-  const { onOpen } = useOpenAccount();
-  const deleteMutation = useDeleteAccount(id);
+  const { onOpen } = useOpenTrasaction();
+  const deleteMutation = useDeleteTransaction(id);
   const [ConfrimDialog, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete this account"
+    "You are about to delete this transaction"
   );
   const handleDelete = async () => {
     const ok = await confirm();
