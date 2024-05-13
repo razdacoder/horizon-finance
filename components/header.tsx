@@ -1,6 +1,5 @@
 import HeaderLogo from "@/components/header-logo";
 import Navigation from "@/components/navigation";
-import ThemeToggle from "@/components/theme-toogle";
 import WelcomeMessage from "@/components/welcome-msg";
 import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
@@ -15,7 +14,7 @@ export default function Header() {
             <Navigation />
           </div>
           <div className="flex items-center gap-x-2">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
 
             <ClerkLoaded>
               <UserButton afterSignOutUrl="/" />
